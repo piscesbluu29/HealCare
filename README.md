@@ -21,6 +21,8 @@ HealCare adalah platform digital terpadu untuk memantau tumbuh kembang anak guna
 
 ## 📸 Tampilan Aplikasi
 
+## 📸 Tampilan Aplikasi
+
 ### 🔐 Halaman Akses (Login)
 ![Login Screen](public/images/img-readme/login.png)
 
