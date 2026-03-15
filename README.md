@@ -6,7 +6,7 @@ HealCare adalah platform digital terpadu untuk memantau tumbuh kembang anak guna
 * **Dashboard Real-time**: Visualisasi grafik pertumbuhan anak yang intuitif (Antropometri).
 * **Manajemen Data Anak**: Pencatatan rutin Tinggi Badan (TB) dan Berat Badan (BB).
 * **Multi-role Access**: Sistem login khusus untuk Admin, Petugas Kesehatan, dan Orang Tua.
-* **Glassmorphism UI**: Antarmuka modern dengan efek blur transparansi yang elegan. 
+* **Glassmorphism UI**: Antarmuka modern dengan efek blur transparansi yang elegan.
 
 ## 🚀 Tech Stack
 * **Framework**: Laravel 11
