@@ -18,3 +18,11 @@ HealCare adalah platform digital terpadu untuk memantau tumbuh kembang anak guna
 1. Clone repository:
    ```bash
    git clone [https://github.com/piscesbluu29/HealCare.git](https://github.com/piscesbluu29/HealCare.git)
+
+## 📸 Tampilan Aplikasi
+
+### 🔐 Halaman Akses (Login)
+![Login Screen](public/images/img-readme/login.png)
+
+### 📊 Dashboard Monitoring
+![Dashboard Screen](public/images/img-readme/dashboard.png)
