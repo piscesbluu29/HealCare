@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -6,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller {
+
     public function index() {
         $users = User::latest()->get();
         return view('users.index', compact('users'));
@@ -36,5 +38,19 @@ class UserController extends Controller {
     public function destroy(User $user) {
         $user->delete();
         return redirect()->route('users.index')->with('success', 'User Berhasil Dihapus!');
+    }
+
+    /**
+     * Fitur Reset Password ke Default
+     */
+    public function resetPassword($id) {
+        $user = User::findOrFail($id);
+
+        // Update password jadi password standar
+        $user->update([
+            'password' => Hash::make('password123'),
+        ]);
+
+        return redirect()->route('users.index')->with('success', 'Password ' . $user->name . ' berhasil direset menjadi: password123');
     }
 }

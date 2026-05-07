@@ -49,7 +49,7 @@
                         <div>
                             <label class="block text-[9px] font-black text-blue-400 uppercase mb-1 ml-1">Orang Tua (Akun)</label>
                             <select name="user_id" class="w-full border-2 border-blue-50 rounded-xl font-bold text-sm bg-blue-50/20 focus:ring-blue-500 focus:border-blue-500 px-4 py-3" required>
-                                <option value="" disabled selected>Pilih Akun Ortu</option>
+                                 <option value="" disabled selected>Pilih Akun Ortu</option>
                                 @foreach($parents as $parent)
                                     <option value="{{ $parent->id }}">{{ strtoupper($parent->name) }}</option>
                                 @endforeach
@@ -64,18 +64,48 @@
             </div>
             @endif
 
+            {{-- Fitur Search Nama (Baru Ditambahin) --}}
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 bg-white/50 p-4 rounded-2xl border border-blue-100/50">
+                <form action="{{ url()->current() }}" method="GET" class="flex w-full max-w-xl gap-2 group">
+                    <div class="relative flex-1">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-blue-400 group-focus-within:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Cari Nama Pasien" 
+                            class="block w-full pl-12 pr-4 py-4 bg-white border-2 border-blue-100 rounded-2xl font-bold text-blue-900 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-sm shadow-sm">
+                        
+                        @if(request('search'))
+                            <a href="{{ url()->current() }}" class="absolute inset-y-0 right-0 pr-4 flex items-center text-red-400 hover:text-red-600">
+                                <span class="text-[10px] font-black uppercase tracking-tighter">Reset</span>
+                            </a>
+                        @endif
+                    </div>
+
+                    {{-- TOMBOL CARI BIAR GAK BINGUNG --}}
+                    <button type="submit" class="px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl shadow-lg shadow-blue-200 transition-all active:scale-95 flex items-center justify-center">
+                        <span class="text-[10px] font-black uppercase tracking-widest mr-2">Cari</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </button>
+                </form>
+                <div class="text-[10px] font-black text-blue-400 uppercase tracking-[0.2em]">
+                    Menampilkan {{ $children->count() }} Data
+                </div>
+            </div>
+
             {{-- 2. TABEL DATABASE --}}
             <div class="bg-white overflow-hidden shadow-xl rounded-2xl border-2 border-blue-100">
                 <div class="p-6 bg-blue-900 flex justify-between items-center">
                     <h3 class="text-xs font-black text-white uppercase tracking-widest flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                         </svg>
                         {{ $isParentView ? 'Data Anak Saya' : 'Database Pasien Aktif' }}
                     </h3>
-                    <span class="text-[10px] bg-blue-800 text-blue-100 px-3 py-1 rounded-full font-black border border-blue-700">
-                        {{ $children->count() }} TOTAL PASIEN
-                    </span>
                 </div>
                 
                 <div class="overflow-x-auto">
@@ -87,7 +117,7 @@
                                 <th class="px-6 py-4 text-[10px] font-black text-blue-900 uppercase tracking-widest border-b-2 border-blue-100">Orang Tua</th>
                                 @endif
                                 <th class="px-6 py-4 text-[10px] font-black text-blue-900 uppercase tracking-widest border-b-2 border-blue-100 text-center">Gender</th>
-                                <th class="px-6 py-4 text-[10px] font-black text-blue-900 uppercase tracking-widest border-b-2 border-blue-100 text-center">Tgl Lahir</th>
+                                <th class="px-6 py-4 text-[10px] font-black text-blue-900 uppercase tracking-widest border-b-2 border-blue-100 text-center">Tanggal Lahir</th>
                                 <th class="px-6 py-4 text-[10px] font-black text-blue-900 uppercase tracking-widest border-b-2 border-blue-100 text-right">Tindakan</th>
                             </tr>
                         </thead>
@@ -151,7 +181,12 @@
                             @empty
                             <tr>
                                 <td colspan="{{ !$isParentView ? 5 : 4 }}" class="px-6 py-20 text-center">
-                                    <p class="text-gray-300 font-black text-xs uppercase italic tracking-widest">Belum ada data pasien</p>
+                                    <div class="flex flex-col items-center">
+                                        <span class="text-4xl mb-4">🔍</span>
+                                        <p class="text-gray-400 font-black text-xs uppercase italic tracking-widest">
+                                            {{ request('search') ? 'Nama "'.request('search').'" nggak ketemu, Ngab!' : 'Belum ada data pasien' }}
+                                        </p>
+                                    </div>
                                 </td>
                             </tr>
                             @endforelse
