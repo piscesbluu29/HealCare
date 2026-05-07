@@ -16,24 +16,37 @@ class ChildController extends Controller
     /**
      * Menampilkan data anak (Admin liat semua, Ortu liat miliknya sendiri)
      */
-    public function index()
-    {
-        $user = Auth::user();
+    public function index(Request $request) // Tambahin Request $request di sini
+{
+    $user = Auth::user();
+    $keyword = $request->search; // Ambil input dari kotak search
 
-        if ($user->role == 'ortu') {
-            // POV Jihyo: Cuma ambil anak yang user_id nya sesuai id dia
-            $children = Child::where('user_id', $user->id)->latest()->get();
-            $isParentView = true;
-            $parents = collect(); // Kosongkan biar gak error di view
-        } else {
-            // POV Admin/Petugas: Ambil semua data
-            $children = Child::with('parent')->latest()->get();
-            $parents = User::where('role', 'ortu')->orderBy('name', 'asc')->get();
-            $isParentView = false;
-        }
-
-        return view('children.index', compact('children', 'parents', 'isParentView'));
+    if ($user->role == 'ortu') {
+        // POV Ortu: Ambil anak miliknya + Filter Search Nama
+        $children = Child::where('user_id', $user->id)
+            ->when($keyword, function ($query, $keyword) {
+                return $query->where('nama', 'like', "%{$keyword}%");
+            })
+            ->latest()
+            ->get();
+            
+        $isParentView = true;
+        $parents = collect(); 
+    } else {
+        // POV Admin/Petugas: Ambil semua data + Filter Search Nama
+        $children = Child::with('parent')
+            ->when($keyword, function ($query, $keyword) {
+                return $query->where('nama', 'like', "%{$keyword}%");
+            })
+            ->latest()
+            ->get();
+            
+        $parents = User::where('role', 'ortu')->orderBy('name', 'asc')->get();
+        $isParentView = false;
     }
+
+    return view('children.index', compact('children', 'parents', 'isParentView'));
+}
 
     /**
      * Simpan data anak baru (Hanya Admin/Petugas)

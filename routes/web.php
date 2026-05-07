@@ -12,25 +12,25 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-    
     // 1. DASHBOARD & PROFILE (Semua Role Bisa)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    Route::controller(ProfileController::class)->group(function () {
+        Route::get('/profile', 'edit')->name('profile.edit');
+        Route::patch('/profile', 'update')->name('profile.update');
+        Route::delete('/profile', 'destroy')->name('profile.destroy');
+    });
 
     // 2. KHUSUS ORANG TUA
     Route::get('/anak-saya', [ChildController::class, 'index'])->name('my.children');
 
-    // 3. KHUSUS ADMIN (Manajemen User)
-    Route::resource('users', UserController::class);
+// 3. KHUSUS ADMIN (Manajemen User)
+// Kita cuma izinin index, create, store, dan destroy
+    Route::resource('users', UserController::class)->except(['edit', 'update', 'show']);
+    // Jalur Reset Password tetap ada
+    Route::post('/users/{id}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
 
-// 4. MANAJEMEN DATA ANAK (Petugas & Admin)
+    // 4. MANAJEMEN DATA ANAK (Petugas & Admin)
     Route::prefix('children')->group(function () {
         Route::get('/', [ChildController::class, 'index'])->name('children.index'); 
         Route::post('/', [ChildController::class, 'store'])->name('children.store'); 
@@ -43,10 +43,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}', [ChildController::class, 'show'])->name('children.show'); 
         Route::get('/{id}/edit', [ChildController::class, 'edit'])->name('children.edit'); 
         Route::put('/{id}', [ChildController::class, 'update'])->name('children.update'); 
-        
-        // --- TAMBAHKAN BARIS INI ---
         Route::delete('/{id}', [ChildController::class, 'destroy'])->name('children.destroy');
-        // ---------------------------
     });
 
     // Hapus Riwayat

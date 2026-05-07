@@ -49,6 +49,9 @@
                             <div class="relative">
                                 <select name="role" 
                                     class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700 focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer">
+                                    
+                                    <option value="" disabled selected>🔍 PILIH ROLE AKSES</option>
+                                    
                                     <option value="petugas">🩺 PETUGAS KESEHATAN</option>
                                     <option value="ortu">👪 ORANG TUA</option>
                                     <option value="admin">🛡️ ADMINISTRATOR</option>

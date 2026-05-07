@@ -17,9 +17,15 @@
                             <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-60 mb-1">Role Akun</p>
                             <h3 class="text-2xl font-black uppercase tracking-tighter mb-4">{{ Auth::user()->role }}</h3>
                             
-                            <div class="w-20 h-20 bg-blue-700 rounded-2xl flex items-center justify-center text-3xl mb-4 border-2 border-blue-500/50">
-                                {{ substr(Auth::user()->name, 0, 1) }}
-                            </div>
+                        <div class="w-20 h-20 bg-blue-700 rounded-2xl flex items-center justify-center overflow-hidden mb-4 border-2 border-blue-500/50 shadow-lg">
+                            {{-- Cek fisik file di storage --}}
+                            @if(Auth::user()->avatar && file_exists(public_path('storage/' . Auth::user()->avatar)))
+                                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="w-full h-full object-cover" alt="Profile">
+                            @else
+                                {{-- Fallback ke inisial jika foto tidak ada --}}
+                                <span class="text-white font-black uppercase">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                            @endif
+                        </div>
                             
                             <p class="text-sm font-bold opacity-80 italic">"Pastikan data diri dan password Anda diperbarui secara berkala untuk keamanan data pasien."</p>
                         </div>
